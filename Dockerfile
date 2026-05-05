@@ -49,14 +49,13 @@ COPY --from=builder /app/scripts ./scripts
 # Install better-sqlite3 and bcryptjs for runtime (standalone mode needs native deps)
 RUN npm install better-sqlite3 bcryptjs
 
-# Copy database file if it exists, or let it be created at runtime
-# It's better to use volume for database
-
-USER nextjs
+# Copy start script
+COPY --from=builder /app/start.sh ./
+RUN chmod +x start.sh
 
 EXPOSE 3000
 
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
-CMD ["node", "server.js"]
+CMD ["./start.sh"]
