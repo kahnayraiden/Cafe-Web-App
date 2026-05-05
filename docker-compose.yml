@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  coffee-app:
+    build: .
+    container_name: coffee_app
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - DB_PATH=/app/data/coffee.db
+      - JWT_SECRET=change-me-in-production
+    restart: unless-stopped
