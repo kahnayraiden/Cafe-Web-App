@@ -4,7 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const dbPath = path.join(__dirname, '..', 'coffee.db');
+const dbPath = process.env.DB_PATH || path.join(__dirname, '..', 'coffee.db');
 const db = new Database(dbPath);
 
 const username = 'admin';
