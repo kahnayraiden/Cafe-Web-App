@@ -48,4 +48,14 @@ try {
   // Column already exists, ignore
 }
 
+// Auto-create default admin user if not exists
+const adminUser = db.prepare('SELECT id FROM users WHERE username = ?').get('admin');
+if (!adminUser) {
+  // We use require to avoid messing up top-level imports and only load it when needed
+  const bcrypt = require('bcryptjs');
+  const hash = bcrypt.hashSync('password123', 10);
+  db.prepare('INSERT INTO users (username, password) VALUES (?, ?)').run('admin', hash);
+  console.log('Created default admin user (admin / password123)');
+}
+
 export default db;
